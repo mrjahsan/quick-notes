@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Modal, TextInput } from "react-native";
+import { FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 const NotesScreen = () => {
     const [notes, setNotes] = useState([
@@ -9,6 +9,19 @@ const NotesScreen = () => {
     ]);
     const [modalVisible, setModalVisible] = useState(false);
     const [newNote, setNewNote] = useState("");
+
+    // Add new note
+    const addNote = () => {
+      if (newNote.trim() === "") return;
+
+      setNotes((prevNotes) => [
+        ...prevNotes,
+        { id: Date.now().toString(), text: newNote }
+      ]);
+
+      setNewNote("");
+      setModalVisible(false);
+    };     
     
   return (
   <View style={styles.container}>
@@ -17,7 +30,7 @@ const NotesScreen = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
             <View style={styles.noteItem}>
-                <Text>{item.text}</Text>
+                <Text style={styles.noteText}>{item.text}</Text>
             </View>
         )}
     />
@@ -41,12 +54,14 @@ const NotesScreen = () => {
                     value={newNote}
                     onChangeText={setNewNote}
                 />
-                <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}> 
-                    <Text style={styles.CancelButtonText}>Cancel</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.saveButton} onPress={AddNote => setModalVisible(false)}> 
-                    <Text style={styles.saveButtonText}>Save</Text>
-                </TouchableOpacity>
+                <View style={styles.modalButtons}>
+                    <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}> 
+                        <Text style={styles.cancelButtonText}>Cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.saveButton} onPress={addNote}> 
+                        <Text style={styles.saveButtonText}>Save</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     </Modal>
@@ -86,6 +101,59 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     textAlign: "center",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    width: "80%",
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  modalInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    padding: 10,
+    fontSize: 16,
+    marginBottom: 15,
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  cancelButton: {
+    backgroundColor: "#ccc",
+    padding: 10,
+    borderRadius: 5,
+    flex: 1,
+    marginRight: 10,
+    alignItems: "center",
+  },
+  cancelButtonText: {
+    color: "#333",
+    fontSize: 16,
+  },
+  saveButton: {
+    backgroundColor: "#ff8c00",
+    padding: 10,
+    borderRadius: 5,
+    flex: 1,
+    alignItems: "center",
+  },
+  saveButtonText: {
+    fontSize: 16,
+    color: "#fff",
   },
 });
 
