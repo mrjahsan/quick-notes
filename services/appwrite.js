@@ -1,10 +1,10 @@
-import { Client, Databases } from "react-native-appwrite";
 import { Platform } from "react-native";
+import { Client, Databases } from "react-native-appwrite";
 
 const config = {
     endpoint: process.env.EXPO_PUBLIC_APPWRITE_ENDPOINT,
     projectId: process.env.EXPO_PUBLIC_APPWRITE_PROJECT_ID,
-    databaseId: process.env.EXPO_PUBLIC_APPWRITE_DB_ID,
+    db: process.env.EXPO_PUBLIC_APPWRITE_DB_ID,
     col: {
         notes: process.env.EXPO_PUBLIC_APPWRITE_COL_NOTES_ID,
     },
@@ -13,17 +13,17 @@ const config = {
 const client = new Client()
     .setEndpoint(config.endpoint)
     .setProject(config.projectId)
-    .setDatabaseId(config.databaseId);
 
-switcch (Platform.OS) {
-    case 'ios:'
+switch (Platform.OS) {
+    case 'ios':
         client.setPlatform(process.env.EXPO_PUBLIC_APPWRITE_BUNDLE_ID);
         break;
-    case 'android'
+    case 'android':
         client.setPlatform(process.env.EXPO_PUBLIC_APPWRITE_PACKAGE_NAME);
         break;
 }
 
 const database = new Databases(client);
 
-export { database, config, client };
+export { client, config, database };
+
