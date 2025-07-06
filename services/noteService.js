@@ -13,7 +13,7 @@ const noteService = {
             return { error: response.error };
         }
 
-        return {data: response};
+        return { data: response };
     },
 
     // Add a new note
@@ -28,7 +28,7 @@ const noteService = {
 
         const response = await databaseService.createDocument(
             dbId,
-            colId, 
+            colId,
             ID.unique(),
             data,
         );
@@ -39,7 +39,29 @@ const noteService = {
         }
 
         return { data: response };
-    },    
+    },
+
+    // Update a note
+    async updateNote(id, note) {
+        const response = await databaseService.updateDocument(dbId, colId, id, {
+            text: note,
+        });
+        if (response?.error) {
+            return { error: response.error };
+        }
+        
+        return { data: response };
+    },
+
+    // Delete a note
+    async deleteNote(id) {
+        const response = await databaseService.deleteDocument(dbId, colId, id);
+        if (response?.error) {
+            return { error: response.error };
+        }
+
+        return { success: true };
+    },
 };
 
 export default noteService;
