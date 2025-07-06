@@ -76,6 +76,11 @@ const NotesScreen = () => {
     ]);
   };
 
+  // Edit note
+  const editNote = async () => {
+    return;
+  };
+
   return (
     <View style={styles.container}>
       {loading ? (
@@ -83,7 +88,8 @@ const NotesScreen = () => {
       ) : (
         <>
         {error && <Text style={styles.errorText}>{error}</Text>}
-        <NoteList notes={notes} onDelete={deleteNote} />
+        <NoteList notes={notes} onDelete={deleteNote}
+        onEdit={editNote} />
         </>
       )}
 
