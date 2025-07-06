@@ -11,14 +11,6 @@ const databaseService = {
             return { error: error.message }
         }
     },
+};
 
 export default databaseService;
-
-
-    //    // Create document
-//    async createDocument(dbId, colId, document) {
-//     try {
-//         const response = await database.createDocument(dbId, colId, document);
-//     }
-//    }
-// }
